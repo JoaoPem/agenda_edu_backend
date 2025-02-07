@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::API
   before_action :authenticate
 
+  rescue_from CanCan::AccessDenied, with: :access_denied
+
+  attr_reader :current_user
+
   private
 
   def authenticate
@@ -20,5 +24,9 @@ class ApplicationController < ActionController::API
     rescue JWT::DecodeError
       render json: { errors: e.message }, status: :unauthorized
     end
+  end
+
+  def access_denied
+    render json: { error: "Access Denied: You do not have permission to perform this action." }, status: :forbidden
   end
 end

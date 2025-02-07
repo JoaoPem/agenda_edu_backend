@@ -46,6 +46,8 @@ gem "cancancan"
 gem "tty-spinner"
 # Pretty print your Ruby objects with style
 gem "awesome_print"
+# Uploading files
+gem "activestorage"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -4,4 +4,8 @@ Rails.application.routes.draw do
   namespace :adminsbackoffice do
     resources :users, only: [ :create, :index, :show, :update, :destroy ]
   end
+
+  namespace :usersbackoffice do
+    resources :users, only: [ :show, :update ]
+  end
 end

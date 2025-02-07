@@ -1,4 +1,5 @@
 class Adminsbackoffice::UsersController < ApplicationController
+  load_and_authorize_resource
   before_action :set_user, only: %i[ update show destroy ]
   def create
     @user = User.new(user_params)
@@ -34,7 +35,7 @@ class Adminsbackoffice::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)
+    params.require(:user).permit(:name, :email, :password, :current_password, :password_confirmation, :role)
   end
 
   def set_user
