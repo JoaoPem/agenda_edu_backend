@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: agenda_edu_backend
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: agenda_edu_backend_development
+    ports:
+      - "5433:5432"
+    networks:
+      - app_network
+
+  web:
+    build: .
+    command: bin/rails server -b 0.0.0.0 -p 3000
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL_DEVELOPMENT: postgres://agenda_edu_backend:password@db:5432/agenda_edu_backend_development
+      AGENDA_EDU_BACKEND_DATABASE_PASSWORD: password
+    networks:
+      - app_network
+
+networks:
+  app_network:
