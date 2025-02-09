@@ -1,5 +1,5 @@
 class Adminsbackoffice::SubjectsController < ApplicationController
-  before_action :set_subject, only: [ :show, :update ]
+  before_action :set_subject, only: [ :show, :update, :destroy ]
 
   def index
     @subjects = Subject.includes(:users).all
@@ -16,7 +16,7 @@ class Adminsbackoffice::SubjectsController < ApplicationController
   end
 
   def show
-    render json: @subject
+    render json: @subject, include_topics: true
   end
 
   def update
@@ -47,6 +47,11 @@ class Adminsbackoffice::SubjectsController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :not_found
+  end
+
+  def destroy
+    @subject.destroy
+    render json: { message: "Subject deleted successfully" }
   end
 
 

@@ -3,7 +3,10 @@ Rails.application.routes.draw do
 
   namespace :adminsbackoffice do
     resources :users, only: [ :create, :index, :show, :update, :destroy ]
-    resources :subjects, only: [ :create, :index, :update ]
+    resources :subjects do
+      resources :topics, only: [ :create, :update, :destroy ]
+    end
+    resources :topics, only: [ :index ]
   end
 
   namespace :usersbackoffice do
