@@ -5,6 +5,10 @@ class ApplicationController < ActionController::API
 
   attr_reader :current_user
 
+  def route_not_found
+    render json: { errors: "No route matches #{request.method} '#{request.path}'" }, status: :not_found
+  end
+
   private
 
   def authenticate

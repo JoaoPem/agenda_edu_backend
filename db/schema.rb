@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_06_184749) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_09_164902) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_06_184749) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "subjects", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_subjects_on_name", unique: true
+  end
+
+  create_table "subjects_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "subject_id", null: false
+    t.index ["subject_id", "user_id"], name: "index_subjects_users_on_subject_id_and_user_id"
+    t.index ["user_id", "subject_id"], name: "index_subjects_users_on_user_id_and_subject_id"
   end
 
   create_table "users", force: :cascade do |t|

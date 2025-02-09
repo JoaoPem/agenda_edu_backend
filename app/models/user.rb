@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
+
   has_one_attached :profile_picture
+  has_and_belongs_to_many :subjects
 
   before_save { email.downcase! }
 
