@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   has_one_attached :profile_picture
   has_and_belongs_to_many :subjects
+  belongs_to :class_room, optional: true
 
   before_save { email.downcase! }
 

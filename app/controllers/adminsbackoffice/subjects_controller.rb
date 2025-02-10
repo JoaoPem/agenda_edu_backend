@@ -51,7 +51,8 @@ class Adminsbackoffice::SubjectsController < ApplicationController
 
   def destroy
     @subject.destroy
-    render json: { message: "Subject deleted successfully" }
+    # render json: { message: "Subject deleted successfully" }
+    head :no_content
   end
 
 

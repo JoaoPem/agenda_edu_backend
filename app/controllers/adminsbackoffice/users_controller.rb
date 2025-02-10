@@ -29,7 +29,8 @@ class Adminsbackoffice::UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    render json: { message: "User deleted successfully" }
+    # render json: { message: "User deleted successfully" }
+    head :no_content
   end
 
   private
