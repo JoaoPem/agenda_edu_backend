@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   namespace :usersbackoffice do
     resources :users, only: [ :show, :update ]
+    resources :tasks, only: [ :index ]
   end
 
   match "*unmatched", to: "application#route_not_found", via: :all
