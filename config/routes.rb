@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     end
     resources :topics, only: [ :index ]
     resources :class_rooms
+    resources :tasks, only: [ :index, :create, :destroy ]
   end
 
   namespace :usersbackoffice do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_09_174440) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_151530) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -63,6 +63,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_174440) do
     t.index ["user_id", "subject_id"], name: "index_subjects_users_on_user_id_and_subject_id"
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "deadline", null: false
+    t.bigint "class_room_id", null: false
+    t.bigint "subject_id", null: false
+    t.bigint "topic_id", null: false
+    t.bigint "professor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["class_room_id"], name: "index_tasks_on_class_room_id"
+    t.index ["professor_id"], name: "index_tasks_on_professor_id"
+    t.index ["subject_id"], name: "index_tasks_on_subject_id"
+    t.index ["topic_id"], name: "index_tasks_on_topic_id"
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "subject_id", null: false
@@ -86,6 +102,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_174440) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "tasks", "class_rooms"
+  add_foreign_key "tasks", "subjects"
+  add_foreign_key "tasks", "topics"
+  add_foreign_key "tasks", "users", column: "professor_id"
   add_foreign_key "topics", "subjects"
   add_foreign_key "users", "class_rooms"
 end
