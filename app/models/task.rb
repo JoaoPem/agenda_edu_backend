@@ -5,6 +5,7 @@ class Task < ApplicationRecord
   belongs_to :professor, class_name: "User"
 
   has_one_attached :file
+  has_many :task_submissions, dependent: :destroy
 
   validates :title, :description, :deadline, presence: true
   validates :file, attached: true, content_type: { in: "application/pdf", message: "deve ser um PDF" },
