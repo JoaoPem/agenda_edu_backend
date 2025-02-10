@@ -1,5 +1,5 @@
 class Adminsbackoffice::TopicsController < ApplicationController
-  before_action :set_subject, only: [ :create ]
+  before_action :set_subject, only: [ :create, :update, :destroy ]
   before_action :set_topic, only: [ :update, :destroy ]
   def index
     @topics = Topic.includes(:subject).all
