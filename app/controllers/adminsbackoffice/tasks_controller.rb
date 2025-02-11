@@ -1,5 +1,6 @@
 class Adminsbackoffice::TasksController < ApplicationController
   before_action :set_task, only: [ :update, :destroy ]
+  
   def index
     @tasks = Task.includes(:class_room, :subject, :topic, :professor).all
     render json: @tasks
