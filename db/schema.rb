@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_224016) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_11_153920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -47,6 +47,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_224016) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_class_rooms_on_name", unique: true
+  end
+
+  create_table "professors_subjects", id: false, force: :cascade do |t|
+    t.bigint "professor_id", null: false
+    t.bigint "subject_id", null: false
+    t.index ["professor_id", "subject_id"], name: "index_professors_subjects_on_professor_id_and_subject_id", unique: true
+    t.index ["professor_id"], name: "index_professors_subjects_on_professor_id"
+    t.index ["subject_id"], name: "index_professors_subjects_on_subject_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -122,6 +130,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_224016) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "professors_subjects", "subjects"
+  add_foreign_key "professors_subjects", "users", column: "professor_id"
   add_foreign_key "task_statuses", "tasks"
   add_foreign_key "task_statuses", "users", column: "student_id"
   add_foreign_key "task_submissions", "tasks"

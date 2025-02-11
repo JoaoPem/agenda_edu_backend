@@ -2,7 +2,12 @@ class User < ApplicationRecord
   has_secure_password
 
   has_one_attached :profile_picture
-  has_and_belongs_to_many :subjects
+  has_and_belongs_to_many :subjects_as_professor,
+                          class_name: "Subject",
+                          join_table: "professors_subjects",
+                          association_foreign_key: "subject_id",
+                          foreign_key: "professor_id"
+
   belongs_to :class_room, optional: true
   has_many :task_submissions, dependent: :nullify
   has_many :task_statuses, foreign_key: :student_id, dependent: :destroy
