@@ -17,6 +17,9 @@ class Usersbackoffice::TaskSubmissionsController < ApplicationController
     @submission.file.attach(params[:task_submission][:file])
 
     if @submission.save
+      task_status = TaskStatus.find_or_initialize_by(student: current_user, task: @task)
+      task_status.status = "concluido"
+      task_status.save
       render json: @submission, status: :created
     else
       render json: { errors: @submission.errors.full_messages }, status: :unprocessable_entity

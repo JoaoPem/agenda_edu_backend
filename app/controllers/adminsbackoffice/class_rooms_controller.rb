@@ -2,7 +2,7 @@ class Adminsbackoffice::ClassRoomsController < ApplicationController
   before_action :set_class_room, only: [ :show, :update, :destroy ]
 
   def index
-    @class_rooms = ClassRoom.includes(:users).all
+    @class_rooms = ClassRoom.includes(:students).all
     render json: @class_rooms
   end
 
@@ -17,7 +17,9 @@ class Adminsbackoffice::ClassRoomsController < ApplicationController
 
   def update
     ActiveRecord::Base.transaction do
+      # Se a chave :student_ids foi enviada na requisição;
       if class_room_params.key?(:student_ids)
+        # Verifica o conteúdo do parametro :student_ids;
         if class_room_params[:student_ids].present?
 
           students = User.where(id: class_room_params[:student_ids], role: :student)

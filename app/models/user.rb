@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_and_belongs_to_many :subjects
   belongs_to :class_room, optional: true
   has_many :task_submissions, dependent: :nullify
+  has_many :task_statuses, foreign_key: :student_id, dependent: :destroy
+
 
   before_save { email.downcase! }
 
