@@ -4,7 +4,7 @@ class Adminsbackoffice::SubjectsController < ApplicationController
   before_action :set_subject, only: [ :show, :update, :destroy ]
 
   def index
-    @subjects = Subject.includes(:users).all
+    @subjects = Subject.includes(:professors).all
     render json: @subjects
   end
 
@@ -23,8 +23,9 @@ class Adminsbackoffice::SubjectsController < ApplicationController
 
   def update
     ActiveRecord::Base.transaction do
+      # Se a chave :professor_ids foi enviada na requisição;
       if subject_params.key?(:professor_ids)
-
+        # Verifica o conteúdo do parametro :professor_ids;
         if subject_params[:professor_ids].present?
 
           professors = User.where(id: subject_params[:professor_ids])
@@ -35,9 +36,9 @@ class Adminsbackoffice::SubjectsController < ApplicationController
             raise ActiveRecord::RecordNotFound, "Professores não encontrados: #{missing_professors.join(', ')}"
           end
 
-          @subject.users = professors
+          @subject.professors = professors
         else
-          @subject.users.clear
+          @subject.professors.clear
         end
       end
 
