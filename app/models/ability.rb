@@ -17,7 +17,7 @@ class Ability
       cannot :access, Topic
       can [ :show ], ClassRoom, id: user.class_room_id
       cannot :access, Task
-      can [ :show, :update ], TaskSubmission, student_id: user.id
+      can [ :index, :show, :update ], TaskSubmission, student_id: user.id
       can :create, TaskSubmission
     end
   end

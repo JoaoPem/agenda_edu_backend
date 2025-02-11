@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   namespace :usersbackoffice do
     resources :users, only: [ :show, :update ]
     resources :tasks, only: [ :index ] do
-      resources :task_submissions, only: [ :create, :update, :show ]
+      resources :task_submissions, only: [ :index, :create, :update, :show ]
     end
   end
 

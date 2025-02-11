@@ -6,6 +6,11 @@ class Usersbackoffice::TaskSubmissionsController < ApplicationController
   before_action :authorize_student_submission, only: [ :create, :update, :show ]
   before_action :check_deadline, only: [ :create, :update ]
 
+
+  def index
+    @submissions = TaskSubmission.where(student: current_user).includes(:task)
+    render json: @submissions
+  end
   def create
     if TaskSubmission.exists?(student_id: current_user.id, task_id: @task.id)
       return render json: { error: "Você já enviou uma resposta para esta atividade" }, status: :unprocessable_entity
