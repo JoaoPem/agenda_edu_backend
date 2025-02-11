@@ -2,7 +2,7 @@ class Adminsbackoffice::TopicsController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_subject, only: [ :create, :update, :destroy ]
-  before_action :set_topic, only: [ :update, :destroy ]
+  before_action :set_topic, only: [ :update, :destroy, :show ]
 
   def index
     # topics?filter=my_topics
@@ -34,6 +34,10 @@ class Adminsbackoffice::TopicsController < ApplicationController
   def destroy
     @topic.destroy
     head :no_content
+  end
+
+  def show
+    render json: @topic
   end
 
   private

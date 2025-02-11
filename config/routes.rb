@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :subjects do
       resources :topics, only: [ :create, :update, :destroy ]
     end
-    resources :topics, only: [ :index ]
+    resources :topics, only: [ :index, :show ]
     resources :class_rooms
     resources :tasks, only: [ :index, :create, :destroy, :update ]
   end

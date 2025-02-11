@@ -2,6 +2,7 @@ class ApplicationController < ActionController::API
   before_action :authenticate
 
   rescue_from CanCan::AccessDenied, with: :access_denied
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   attr_reader :current_user
 
@@ -36,5 +37,9 @@ class ApplicationController < ActionController::API
 
   def access_denied
     render json: { error: "Access Denied: You do not have permission to perform this action." }, status: :forbidden
+  end
+
+  def record_not_found(exception)
+    render json: { error: exception.message }, status: :not_found
   end
 end
