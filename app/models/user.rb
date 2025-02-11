@@ -9,6 +9,7 @@ class User < ApplicationRecord
                           foreign_key: "professor_id"
 
   belongs_to :class_room, optional: true
+  has_many :tasks, foreign_key: "professor_id", dependent: :destroy
   has_many :task_submissions, dependent: :nullify
   has_many :task_statuses, foreign_key: :student_id, dependent: :destroy
 

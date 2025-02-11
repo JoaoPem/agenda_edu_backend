@@ -1,6 +1,5 @@
 class Task < ApplicationRecord
   belongs_to :class_room
-  belongs_to :subject
   belongs_to :topic
   belongs_to :professor, class_name: "User"
 

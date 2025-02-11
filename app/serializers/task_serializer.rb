@@ -1,7 +1,11 @@
 class TaskSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :deadline, :class_room_id, :subject_id, :topic_id, :file_url
+  attributes :id, :professor_id, :title, :description, :deadline, :class_room_id, :subject_id, :topic_id, :file_url
 
   attribute :status, if: :user_context?
+
+  def subject_id
+    object.topic.subject_id
+  end
 
   def file_url
     return nil unless object.file.attached?
@@ -16,5 +20,4 @@ class TaskSerializer < ActiveModel::Serializer
   def user_context?
     instance_options[:user_context] == true
   end
-
 end

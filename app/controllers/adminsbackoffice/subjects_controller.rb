@@ -10,7 +10,6 @@ class Adminsbackoffice::SubjectsController < ApplicationController
     else
       @subjects = Subject.includes(:professors).all
     end
-
     render json: @subjects
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_11_153920) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_11_171653) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -96,14 +96,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_153920) do
     t.text "description"
     t.datetime "deadline", null: false
     t.bigint "class_room_id", null: false
-    t.bigint "subject_id", null: false
     t.bigint "topic_id", null: false
     t.bigint "professor_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["class_room_id"], name: "index_tasks_on_class_room_id"
     t.index ["professor_id"], name: "index_tasks_on_professor_id"
-    t.index ["subject_id"], name: "index_tasks_on_subject_id"
     t.index ["topic_id"], name: "index_tasks_on_topic_id"
   end
 
@@ -137,7 +135,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_153920) do
   add_foreign_key "task_submissions", "tasks"
   add_foreign_key "task_submissions", "users", column: "student_id"
   add_foreign_key "tasks", "class_rooms"
-  add_foreign_key "tasks", "subjects"
   add_foreign_key "tasks", "topics"
   add_foreign_key "tasks", "users", column: "professor_id"
   add_foreign_key "topics", "subjects"

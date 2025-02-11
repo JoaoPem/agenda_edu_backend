@@ -10,7 +10,7 @@ class Ability
       can :read, Subject
       can :read, Topic
       can :read, ClassRoom
-      can :manage, Task
+      can :manage, Task, professor_id: user.id
     elsif user.student?
       cannot :access, User
       cannot :access, Subject

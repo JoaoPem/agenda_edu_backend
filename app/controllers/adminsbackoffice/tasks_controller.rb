@@ -4,11 +4,26 @@ class Adminsbackoffice::TasksController < ApplicationController
   before_action :set_task, only: [ :update, :destroy ]
 
   def index
-    @tasks = Task.includes(:class_room, :subject, :topic, :professor).all
+    # tasks?filter=my_tasks
+    if params[:filter] == "my_tasks" && current_user.professor?
+      @tasks = Task.includes(:class_room, :topic, :professor).where(professor_id: current_user.id)
+    else
+      @tasks = Task.includes(:class_room, :topic, :professor).all
+    end
     render json: @tasks
   end
 
   def create
+    topic = Topic.includes(:subject).find_by(id: task_params[:topic_id])
+
+    if topic.nil?
+      return render json: { error: "O tópico informado não existe" }, status: :not_found
+    end
+
+    unless topic.subject.professors.exists?(id: current_user.id)
+      return render json: { error: "Você não tem permissão para criar uma tarefa neste tópico" }, status: :forbidden
+    end
+
     @task = Task.new(task_params)
     @task.professor = current_user
 
@@ -52,6 +67,6 @@ class Adminsbackoffice::TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :deadline, :class_room_id, :subject_id, :topic_id, :file)
+    params.require(:task).permit(:title, :description, :deadline, :class_room_id, :topic_id, :file)
   end
 end
