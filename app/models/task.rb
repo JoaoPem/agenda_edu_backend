@@ -20,5 +20,4 @@ class Task < ApplicationRecord
       TaskStatus.create!(task: self, student: student, status: :novo)
     end
   end
-
 end

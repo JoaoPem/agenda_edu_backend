@@ -1,8 +1,10 @@
 class Usersbackoffice::TaskSubmissionsController < ApplicationController
+  load_and_authorize_resource
+
   before_action :set_task, only: [ :create, :update, :show ]
-  before_action :set_task_submission, only: [ :show, :update]
+  before_action :set_task_submission, only: [ :show, :update ]
   before_action :authorize_student_submission, only: [ :create, :update, :show ]
-  before_action :check_deadline, only: [:create, :update]
+  before_action :check_deadline, only: [ :create, :update ]
 
   def create
     if TaskSubmission.exists?(student_id: current_user.id, task_id: @task.id)
@@ -29,7 +31,6 @@ class Usersbackoffice::TaskSubmissionsController < ApplicationController
   end
 
   def update
-
     if params[:task_submission][:file].present?
       @submission.file.purge if @submission.file.attached?
       @submission.file.attach(params[:task_submission][:file])

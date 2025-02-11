@@ -1,22 +1,50 @@
 User.create!(
   [
     {
-      name: 'João Pedro Monteiro',
-      email: 'JOAO@test.com',
+      name: 'Diretor',
+      email: 'diretor@test.com',
       password: 'Abcd@123',
       password_confirmation: "Abcd@123",
       role: :admin
     },
     {
-      name: 'Mateus Monteiro',
-      email: 'mateus@test.com',
+      name: 'Sub-Diretor',
+      email: 'subdiretor@test.com',
+      password: 'Abcd@123',
+      password_confirmation: "Abcd@123",
+      role: :admin
+    },
+    {
+      name: 'Professor 01',
+      email: 'professor1@test.com',
       password: 'Abcd@123',
       password_confirmation: "Abcd@123",
       role: :professor
     },
     {
-      name: 'Isadora Neves',
-      email: 'Isadora@test.com',
+      name: 'Professor 02',
+      email: 'professor2@test.com',
+      password: 'Abcd@123',
+      password_confirmation: "Abcd@123",
+      role: :professor
+    },
+    {
+      name: 'Aluno 01',
+      email: 'aluno1@test.com',
+      password: 'Abcd@123',
+      password_confirmation: "Abcd@123",
+      role: :student
+    },
+    {
+      name: 'Aluno 02',
+      email: 'aluno2@test.com',
+      password: 'Abcd@123',
+      password_confirmation: "Abcd@123",
+      role: :student
+    },
+    {
+      name: 'Aluno 03',
+      email: 'aluno3@test.com',
       password: 'Abcd@123',
       password_confirmation: "Abcd@123",
       role: :student

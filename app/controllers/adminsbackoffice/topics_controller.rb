@@ -1,4 +1,6 @@
 class Adminsbackoffice::TopicsController < ApplicationController
+  load_and_authorize_resource
+
   before_action :set_subject, only: [ :create, :update, :destroy ]
   before_action :set_topic, only: [ :update, :destroy ]
   def index
