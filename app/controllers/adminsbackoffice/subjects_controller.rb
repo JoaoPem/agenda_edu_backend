@@ -4,7 +4,13 @@ class Adminsbackoffice::SubjectsController < ApplicationController
   before_action :set_subject, only: [ :show, :update, :destroy ]
 
   def index
-    @subjects = Subject.includes(:professors).all
+    # subjects?filter=my_subjects
+    if params[:filter] == "my_subjects" && current_user.professor?
+      @subjects = Subject.joins(:professors).where(professors: { id: current_user.id }).distinct
+    else
+      @subjects = Subject.includes(:professors).all
+    end
+
     render json: @subjects
   end
 

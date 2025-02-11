@@ -8,7 +8,7 @@ class Ability
     elsif user.professor?
       cannot :access, User
       can :read, Subject
-      can :manage, Topic
+      can :read, Topic
       can :read, ClassRoom
       can :manage, Task
     elsif user.student?

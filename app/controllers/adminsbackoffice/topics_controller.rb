@@ -3,8 +3,14 @@ class Adminsbackoffice::TopicsController < ApplicationController
 
   before_action :set_subject, only: [ :create, :update, :destroy ]
   before_action :set_topic, only: [ :update, :destroy ]
+
   def index
-    @topics = Topic.includes(:subject).all
+    # topics?filter=my_topics
+    if params[:filter] == "my_topics" && current_user.professor?
+      @topics = Topic.joins(subject: :professors).where(professors: { id: current_user.id }).distinct
+    else
+      @topics = Topic.includes(:subject).all
+    end
     render json: @topics
   end
 
