@@ -6,7 +6,6 @@ class Usersbackoffice::TaskSubmissionsController < ApplicationController
   before_action :authorize_student_submission, only: [ :create, :update, :show ]
   before_action :check_deadline, only: [ :create, :update ]
 
-
   def index
     @submissions = TaskSubmission.where(student: current_user).includes(:task)
     render json: @submissions

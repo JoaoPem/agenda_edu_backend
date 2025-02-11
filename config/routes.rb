@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     end
     resources :topics, only: [ :index, :show ]
     resources :class_rooms
-    resources :tasks, only: [ :index, :create, :destroy, :update ]
+    resources :tasks, only: [ :index, :create, :destroy, :update ] do
+      resources :task_submissions, only: [ :index ]
+    end
   end
 
   namespace :usersbackoffice do

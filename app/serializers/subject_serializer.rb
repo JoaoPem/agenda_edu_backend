@@ -3,6 +3,7 @@ class SubjectSerializer < ActiveModel::Serializer
 
   has_many :professors
   has_many :topics, if: :include_topics?
+
   def include_topics?
     @instance_options[:include_topics]
   end
