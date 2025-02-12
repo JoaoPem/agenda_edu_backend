@@ -56,7 +56,7 @@ class Adminsbackoffice::TasksController < ApplicationController
   end
 
   def show
-    render json: @task
+    render json: @task, each_serializer: TaskSerializer, include_feedbacks: true
   end
 
   def destroy

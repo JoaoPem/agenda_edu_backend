@@ -10,11 +10,11 @@ class Usersbackoffice::TasksController < ApplicationController
                Task.includes(:class_room, :subject, :topic, :professor).all
     end
 
-    render json: @tasks, each_serializer: TaskSerializer, user_context: true
+    render json: @tasks, each_serializer: TaskSerializer, user_status: true
   end
 
   def show
-    render json: @task
+    render json: @task, each_serializer: TaskSerializer, include_feedbacks: true, user_status: true
   end
 
   private

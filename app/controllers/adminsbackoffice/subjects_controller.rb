@@ -23,7 +23,7 @@ class Adminsbackoffice::SubjectsController < ApplicationController
   end
 
   def show
-    render json: @subject, include_topics: true
+    render json: @subject, serializer: SubjectSerializer, include_professors: true, include_topics: true
   end
 
   def update

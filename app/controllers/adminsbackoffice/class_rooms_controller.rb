@@ -4,7 +4,8 @@ class Adminsbackoffice::ClassRoomsController < ApplicationController
   before_action :set_class_room, only: [ :show, :update, :destroy ]
 
   def index
-    @class_rooms = ClassRoom.includes(:students).all
+    # @class_room = ClassRoom.new(class_room_params)
+    @class_rooms = ClassRoom.all
     render json: @class_rooms
   end
 
@@ -53,7 +54,7 @@ class Adminsbackoffice::ClassRoomsController < ApplicationController
   end
 
   def show
-    render json: @class_room
+    render json: @class_room, serializer: ClassRoomSerializer, include_students: true
   end
 
   private

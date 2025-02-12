@@ -7,8 +7,7 @@ class Adminsbackoffice::TaskSubmissionsController < ApplicationController
       return
     end
 
-    @submissions = @task.task_submissions.includes(:student)
-    render json: @submissions
+    render json: @task, serializer: TaskSerializer, include_submissions: true, include_student:true
   end
 
   private

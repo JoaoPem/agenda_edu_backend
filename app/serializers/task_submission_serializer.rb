@@ -1,6 +1,7 @@
 class TaskSubmissionSerializer < ActiveModel::Serializer
   attributes :id, :description, :file_url, :status, :student
 
+  attribute :student, if: :include_student?
   belongs_to :task
 
   def status
@@ -19,5 +20,9 @@ class TaskSubmissionSerializer < ActiveModel::Serializer
       name: object.student.name,
       email: object.student.email
     }
+  end
+
+  def include_student?
+    instance_options[:include_student] == true
   end
 end

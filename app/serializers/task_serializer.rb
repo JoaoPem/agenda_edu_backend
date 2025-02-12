@@ -1,7 +1,11 @@
 class TaskSerializer < ActiveModel::Serializer
-  attributes :id, :professor_id, :title, :description, :deadline, :class_room_id, :subject_id, :topic_id, :file_url, :feedbacks
+  attributes :id, :professor_id, :title, :description, :deadline, :class_room_id, :subject_id, :topic_id, :file_url
 
-  attribute :status, if: :user_context?
+  # É chamado no controller do usuário;
+  attribute :status, if: :user_status?
+  has_many :feedbacks, if: :include_feedbacks?, serializer: FeedbackSerializer
+  has_many :task_submissions, if: :include_submissions?
+
 
   def subject_id
     object.topic.subject_id
@@ -17,13 +21,16 @@ class TaskSerializer < ActiveModel::Serializer
     TaskStatus.find_by(student: current_user, task: object)&.status
   end
 
-  def user_context?
-    instance_options[:user_context] == true
+  def user_status?
+    instance_options[:user_status] == true
   end
 
-  def feedbacks
-    object.feedbacks.includes(:student).order(created_at: :asc).map do |feedback|
-      FeedbackSerializer.new(feedback)
-    end
+  def include_feedbacks?
+    instance_options[:include_feedbacks] == true
   end
+
+  def include_submissions?
+    instance_options[:include_submissions] == true
+  end
+
 end
