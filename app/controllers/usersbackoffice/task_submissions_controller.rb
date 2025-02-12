@@ -10,6 +10,7 @@ class Usersbackoffice::TaskSubmissionsController < ApplicationController
     @submissions = TaskSubmission.where(student: current_user).includes(:task)
     render json: @submissions
   end
+
   def create
     if TaskSubmission.exists?(student_id: current_user.id, task_id: @task.id)
       return render json: { error: "Você já enviou uma resposta para esta atividade" }, status: :unprocessable_entity

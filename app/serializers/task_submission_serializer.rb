@@ -4,7 +4,7 @@ class TaskSubmissionSerializer < ActiveModel::Serializer
   belongs_to :task
 
   def status
-    TaskStatus.find_by(student: current_user, task: object)&.status
+    TaskStatus.find_by(student: object.student, task: object.task)&.status
   end
 
   def file_url

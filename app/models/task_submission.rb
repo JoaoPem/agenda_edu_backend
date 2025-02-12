@@ -1,5 +1,5 @@
 class TaskSubmission < ApplicationRecord
-  belongs_to :student, class_name: "User", foreign_key: "student_id"
+  belongs_to :student, class_name: "User"
   belongs_to :task
 
   has_one_attached :file
