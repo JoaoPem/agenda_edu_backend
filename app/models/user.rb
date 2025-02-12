@@ -32,14 +32,7 @@ class User < ApplicationRecord
 
   validate :validate_current_password, on: :update
 
-
   private
-
-  def profile_picture_url
-    return nil unless profile_picture.attached?
-
-    Rails.application.routes.url_helpers.rails_blob_url(profile_picture, host: ENV.fetch("RAILS_HOST", "http://localhost:3000"))
-  end
 
   def password_required?
     new_record? || password.present?
