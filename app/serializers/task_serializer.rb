@@ -1,5 +1,5 @@
 class TaskSerializer < ActiveModel::Serializer
-  attributes :id, :professor_id, :title, :description, :deadline, :class_room_id, :subject_id, :topic_id, :file_url
+  attributes :id, :professor_id, :title, :description, :deadline, :class_room_id, :subject_id, :topic_id, :file_url, :feedbacks
 
   attribute :status, if: :user_context?
 
@@ -19,5 +19,11 @@ class TaskSerializer < ActiveModel::Serializer
 
   def user_context?
     instance_options[:user_context] == true
+  end
+
+  def feedbacks
+    object.feedbacks.includes(:student).order(created_at: :asc).map do |feedback|
+      FeedbackSerializer.new(feedback)
+    end
   end
 end

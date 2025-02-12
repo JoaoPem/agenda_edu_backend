@@ -6,6 +6,7 @@ class Task < ApplicationRecord
   has_one_attached :file
   has_many :task_submissions, dependent: :destroy
   has_many :task_statuses, dependent: :destroy
+  has_many :feedbacks, dependent: :destroy
 
   validates :title, :description, :deadline, presence: true
   validates :file, attached: true, content_type: { in: "application/pdf", message: "deve ser um PDF" }, size: { less_than: 10.megabytes, message: "deve ter menos de 10MB" }

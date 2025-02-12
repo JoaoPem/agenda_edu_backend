@@ -8,15 +8,16 @@ Rails.application.routes.draw do
     end
     resources :topics, only: [ :index, :show ]
     resources :class_rooms
-    resources :tasks, only: [ :index, :create, :destroy, :update ] do
+    resources :tasks, only: [ :index, :create, :destroy, :update, :show ] do
       resources :task_submissions, only: [ :index ]
     end
   end
 
   namespace :usersbackoffice do
     resources :users, only: [ :show, :update ]
-    resources :tasks, only: [ :index ] do
+    resources :tasks, only: [ :index, :show ] do
       resources :task_submissions, only: [ :index, :create, :update, :show ]
+      resources :feedbacks, only: [ :index, :create ]
     end
 
     get "/class_rooms/classmate", to: "class_rooms#show_classmate"

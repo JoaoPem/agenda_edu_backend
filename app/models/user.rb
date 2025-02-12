@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :tasks, foreign_key: "professor_id", dependent: :destroy
   has_many :task_submissions, dependent: :nullify
   has_many :task_statuses, foreign_key: :student_id, dependent: :destroy
+  has_many :feedbacks, foreign_key: :student_id, dependent: :destroy
 
 
   before_save { email.downcase! }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_11_171653) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_12_151703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -47,6 +47,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_171653) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_class_rooms_on_name", unique: true
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.bigint "student_id", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_feedbacks_on_student_id"
+    t.index ["task_id"], name: "index_feedbacks_on_task_id"
   end
 
   create_table "professors_subjects", id: false, force: :cascade do |t|
@@ -128,6 +138,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_171653) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "feedbacks", "tasks"
+  add_foreign_key "feedbacks", "users", column: "student_id"
   add_foreign_key "professors_subjects", "subjects"
   add_foreign_key "professors_subjects", "users", column: "professor_id"
   add_foreign_key "task_statuses", "tasks"

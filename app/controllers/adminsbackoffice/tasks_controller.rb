@@ -1,7 +1,7 @@
 class Adminsbackoffice::TasksController < ApplicationController
   load_and_authorize_resource
 
-  before_action :set_task, only: [ :update, :destroy ]
+  before_action :set_task, only: [ :update, :destroy, :show ]
 
   def index
     # tasks?filter=my_tasks
@@ -53,6 +53,10 @@ class Adminsbackoffice::TasksController < ApplicationController
         render json: { errors: @task.errors.full_messages }, status: :unprocessable_entity
       end
     end
+  end
+
+  def show
+    render json: @task
   end
 
   def destroy
