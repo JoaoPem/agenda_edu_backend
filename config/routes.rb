@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :tasks, only: [ :index ] do
       resources :task_submissions, only: [ :index, :create, :update, :show ]
     end
+
+    get "/class_rooms/classmate", to: "class_rooms#show_classmate"
   end
 
   match "*unmatched", to: "application#route_not_found", via: :all, constraints: lambda { |req|
