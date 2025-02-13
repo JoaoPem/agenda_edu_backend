@@ -1,11 +1,11 @@
 class FeedbackSerializer < ActiveModel::Serializer
-  attributes :id, :content, :created_at, :student
+  attributes :id, :content, :created_at, :user
 
-  def student
+  def user
     {
-      id: object.student.id,
-      name: object.student.name,
-      email: object.student.email
+      id: object.user.id,
+      name: object.user.name,
+      email: object.user.email
     }
   end
 end

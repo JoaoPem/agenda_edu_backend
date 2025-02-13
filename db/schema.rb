@@ -51,12 +51,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_151703) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.bigint "task_id", null: false
-    t.bigint "student_id", null: false
+    t.bigint "user_id", null: false
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["student_id"], name: "index_feedbacks_on_student_id"
     t.index ["task_id"], name: "index_feedbacks_on_task_id"
+    t.index ["user_id"], name: "index_feedbacks_on_user_id"
   end
 
   create_table "professors_subjects", id: false, force: :cascade do |t|
@@ -102,8 +102,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_151703) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
+    t.string "title", null: false
+    t.text "description", null: false
     t.datetime "deadline", null: false
     t.bigint "class_room_id", null: false
     t.bigint "topic_id", null: false
@@ -139,7 +139,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_151703) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "feedbacks", "tasks"
-  add_foreign_key "feedbacks", "users", column: "student_id"
+  add_foreign_key "feedbacks", "users"
   add_foreign_key "professors_subjects", "subjects"
   add_foreign_key "professors_subjects", "users", column: "professor_id"
   add_foreign_key "task_statuses", "tasks"

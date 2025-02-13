@@ -3,13 +3,13 @@ class Usersbackoffice::FeedbacksController < ApplicationController
   before_action :authorize_user!
 
   def index
-    feedbacks = @task.feedbacks.includes(:student).order(created_at: :asc)
-    render json: feedbacks, include: :student
+    feedbacks = @task.feedbacks.includes(:user).order(created_at: :asc)
+    render json: feedbacks, include: :user
   end
 
   def create
     feedback = @task.feedbacks.new(feedback_params)
-    feedback.student = current_user
+    feedback.user = current_user
 
     if feedback.save
       ::FeedbackChannel.broadcast_to(@task, FeedbackSerializer.new(feedback))

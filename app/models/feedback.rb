@@ -1,6 +1,6 @@
 class Feedback < ApplicationRecord
   belongs_to :task
-  belongs_to :student, class_name: "User"
+  belongs_to :user
 
   validates :content, presence: true
 end
