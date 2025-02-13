@@ -10,7 +10,9 @@ class Adminsbackoffice::TasksController < ApplicationController
     else
       @tasks = Task.includes(:class_room, :topic, :professor).all
     end
-    render json: @tasks
+    if stale?(etag: @tasks, last_modified: @tasks.maximum(:updated_at))
+      render json: @tasks
+    end
   end
 
   def create
@@ -56,7 +58,9 @@ class Adminsbackoffice::TasksController < ApplicationController
   end
 
   def show
-    render json: @task, each_serializer: TaskSerializer, include_feedbacks: true
+    if stale?(etag: @task, last_modified: @task.updated_at)
+      render json: @task, each_serializer: TaskSerializer, include_feedbacks: true
+    end
   end
 
   def destroy

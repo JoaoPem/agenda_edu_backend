@@ -6,7 +6,9 @@ class Adminsbackoffice::ClassRoomsController < ApplicationController
   def index
     # @class_room = ClassRoom.new(class_room_params)
     @class_rooms = ClassRoom.all
-    render json: @class_rooms
+    if stale?(etag: @class_rooms, last_modified: @class_rooms.maximum(:updated_at))
+      render json: @class_rooms
+    end
   end
 
   def create
@@ -54,7 +56,9 @@ class Adminsbackoffice::ClassRoomsController < ApplicationController
   end
 
   def show
-    render json: @class_room, serializer: ClassRoomSerializer, include_students: true
+    if stale?(etag: @class_room, last_modified: @class_room.updated_at)
+      render json: @class_room, serializer: ClassRoomSerializer, include_students: true
+    end
   end
 
   private

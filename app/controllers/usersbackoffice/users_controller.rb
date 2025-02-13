@@ -2,7 +2,9 @@ class Usersbackoffice::UsersController < ApplicationController
   before_action :set_user, only: [ :update, :show ]
 
   def show
-    render json: @user
+    if stale?(etag: @user, last_modified: @user.updated_at)
+      render json: @user
+    end
   end
 
   def update

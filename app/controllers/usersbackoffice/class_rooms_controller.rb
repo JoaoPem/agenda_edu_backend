@@ -11,7 +11,10 @@ class Usersbackoffice::ClassRoomsController < ApplicationController
 
     classmates = student.class_room.students.where.not(id: student.id).as_json(only: [ :name, :email ])
 
-    render json: classmates
+    if stale?(etag: classmates)
+      render json: classmates
+    end
+
   end
 
   private

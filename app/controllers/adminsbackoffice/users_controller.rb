@@ -1,6 +1,8 @@
 class Adminsbackoffice::UsersController < ApplicationController
   load_and_authorize_resource
+  
   before_action :set_user, only: %i[ update show destroy ]
+
   def create
     @user = User.new(user_params)
     if @user.save
@@ -12,11 +14,15 @@ class Adminsbackoffice::UsersController < ApplicationController
 
   def index
     @users = User.all
-    render json: @users
+    if stale?(etag: @users, last_modified: @users.maximum(:updated_at))
+      render json: @users
+    end
   end
 
   def show
-    render json: @user
+    if stale?(etag: @topic, last_modified: @topic.updated_at)
+      render json: @user
+    end
   end
 
   def update
