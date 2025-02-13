@@ -16,9 +16,10 @@ Rails.application.routes.draw do
   namespace :usersbackoffice do
     resources :users, only: [ :show, :update ]
     resources :tasks, only: [ :index, :show ] do
-      resources :task_submissions, only: [ :index, :create, :update, :show ]
+      resources :task_submissions, only: [ :create, :update, :show ]
       resources :feedbacks, only: [ :index, :create ]
     end
+    resources :task_submissions, only: [ :index ]
 
     get "/class_rooms/classmate", to: "class_rooms#show_classmate"
   end
