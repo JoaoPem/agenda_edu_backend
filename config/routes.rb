@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
     get "/class_rooms/classmate", to: "class_rooms#show_classmate"
 
-    resources :event_notifications, only: [ :index ]
+    resources :event_notifications, only: [ :index, :show ]
   end
 
   match "*unmatched", to: "application#route_not_found", via: :all, constraints: lambda { |req|

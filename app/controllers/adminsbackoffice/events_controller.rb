@@ -7,7 +7,8 @@ class Adminsbackoffice::EventsController < ApplicationController
     @event = @class_room.events.build(event_params)
 
     if @event.save
-      render json: { message: "Evento criado com sucesso", event: EventSerializer.new(@event) }, status: :created
+      # render json: { message: "Evento criado com sucesso", event: EventSerializer.new(@event) }, status: :created
+      render json: @event, serializer: EventSerializer, status: :created
     else
       render json: { errors: @event.errors.full_messages }, status: :unprocessable_entity
     end
@@ -16,20 +17,13 @@ class Adminsbackoffice::EventsController < ApplicationController
   def index
     @events = Event.includes(:class_room).order(created_at: :desc)
     if stale?(etag: @events, last_modified: @events.maximum(:updated_at))
-      render json: @events
+      render json: @events, each_serializer: EventSerializer
     end
   end
 
   def show
-    @parents_notified = @event.event_notifications.includes(:parent).map do |notification|
-      { id: notification.parent.id, name: notification.parent.name, email: notification.parent.email }
-    end
-
     if stale?(etag: @event, last_modified: @event.updated_at)
-      render json: {
-        event: @event,
-        parents_notified: @parents_notified
-      }
+      render json: @event, serializer: EventSerializer, include_notifications: true, include_parent: true
     end
   end
 

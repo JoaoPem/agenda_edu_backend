@@ -8,8 +8,8 @@ class Adminsbackoffice::TaskSubmissionsController < ApplicationController
     end
 
     if stale?(etag: @task)
-      render json: @task, serializer: TaskSerializer, include_submissions: true, include_student:true
-    end  
+      render json: @task, serializer: TaskSerializer, include_submissions: true, include_student: true
+    end
   end
 
   private
