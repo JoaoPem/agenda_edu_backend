@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   before_action :authenticate
-  #before_action :ensure_json_request
+  before_action :ensure_json_request
 
   rescue_from CanCan::AccessDenied, with: :access_denied
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
@@ -47,7 +47,7 @@ class ApplicationController < ActionController::API
   def ensure_json_request
     unless request.headers["Accept"].to_s.include?("application/vnd.api+json")
       render json: { error: "Unsupported Media Type. Only application/vnd.api+json is allowed." }, status: :unsupported_media_type
-      return
+      nil
     end
   end
 end

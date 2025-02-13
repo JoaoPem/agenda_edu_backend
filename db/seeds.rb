@@ -48,6 +48,27 @@ User.create!(
       password: 'Abcd@123',
       password_confirmation: "Abcd@123",
       role: :student
+    },
+    {
+      name: 'Pai 01',
+      email: 'pai1@test.com',
+      password: 'Abcd@123',
+      password_confirmation: "Abcd@123",
+      role: :parent
+    },
+    {
+      name: 'Pai 02',
+      email: 'pai2@test.com',
+      password: 'Abcd@123',
+      password_confirmation: "Abcd@123",
+      role: :parent
+    },
+    {
+      name: 'Pai 03',
+      email: 'pai3@test.com',
+      password: 'Abcd@123',
+      password_confirmation: "Abcd@123",
+      role: :parent
     }
   ]
 )

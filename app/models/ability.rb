@@ -19,6 +19,8 @@ class Ability
       cannot :access, Task
       can [ :index, :show, :update ], TaskSubmission, student_id: user.id
       can :create, TaskSubmission
+    elsif user.parent?
+      can :read, EventNotification, parent_id: user.id
     end
   end
 end

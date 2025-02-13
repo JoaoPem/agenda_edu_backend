@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_12_151703) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_13_122822) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -49,6 +49,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_151703) do
     t.index ["name"], name: "index_class_rooms_on_name", unique: true
   end
 
+  create_table "event_notifications", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "parent_id", null: false
+    t.text "message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_notifications_on_event_id"
+    t.index ["parent_id"], name: "index_event_notifications_on_parent_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.datetime "event_date", null: false
+    t.bigint "class_room_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["class_room_id"], name: "index_events_on_class_room_id"
+  end
+
   create_table "feedbacks", force: :cascade do |t|
     t.bigint "task_id", null: false
     t.bigint "user_id", null: false
@@ -57,6 +77,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_151703) do
     t.datetime "updated_at", null: false
     t.index ["task_id"], name: "index_feedbacks_on_task_id"
     t.index ["user_id"], name: "index_feedbacks_on_user_id"
+  end
+
+  create_table "parents_students", id: false, force: :cascade do |t|
+    t.bigint "parent_id", null: false
+    t.bigint "student_id", null: false
+    t.index ["parent_id", "student_id"], name: "index_parents_students_on_parent_id_and_student_id"
+    t.index ["student_id", "parent_id"], name: "index_parents_students_on_student_id_and_parent_id"
   end
 
   create_table "professors_subjects", id: false, force: :cascade do |t|
@@ -138,6 +165,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_151703) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "event_notifications", "events"
+  add_foreign_key "event_notifications", "users", column: "parent_id"
+  add_foreign_key "events", "class_rooms"
   add_foreign_key "feedbacks", "tasks"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "professors_subjects", "subjects"

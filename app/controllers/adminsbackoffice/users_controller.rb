@@ -1,6 +1,6 @@
 class Adminsbackoffice::UsersController < ApplicationController
   load_and_authorize_resource
-  
+
   before_action :set_user, only: %i[ update show destroy ]
 
   def create
@@ -26,11 +26,34 @@ class Adminsbackoffice::UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
-      render json: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
+    ActiveRecord::Base.transaction do
+      if user_params.key?(:parent_ids)
+        if @user.student?
+          if user_params[:parent_ids].present?
+            parents = User.where(id: user_params[:parent_ids], role: :parent)
+
+            missing_parents = user_params[:parent_ids].map(&:to_i) - parents.pluck(:id)
+            if missing_parents.any?
+              raise ActiveRecord::RecordNotFound, "Pais não encontrados: #{missing_parents.join(', ')}"
+            end
+
+            @user.parents = parents
+          else
+            @user.parents.clear
+          end
+        else
+          return render json: { error: "Apenas usuários do tipo 'student' podem ter pais associados" }, status: :unprocessable_entity
+        end
+      end
+
+      if @user.update(user_params.except(:parent_ids))
+        render json: { message: "Usuário atualizado com sucesso", user: @user }
+      else
+        render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+      end
     end
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
   end
 
   def destroy
@@ -42,7 +65,7 @@ class Adminsbackoffice::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :current_password, :password_confirmation, :role)
+    params.require(:user).permit(:name, :email, :password, :current_password, :password_confirmation, :role, parent_ids: [])
   end
 
   def set_user

@@ -15,9 +15,24 @@ class User < ApplicationRecord
   has_many :feedbacks, dependent: :destroy
 
 
+  has_and_belongs_to_many :children,
+                          class_name: "User",
+                          join_table: "parents_students",
+                          foreign_key: "parent_id",
+                          association_foreign_key: "student_id"
+
+  has_and_belongs_to_many :parents,
+                          class_name: "User",
+                          join_table: "parents_students",
+                          foreign_key: "student_id",
+                          association_foreign_key: "parent_id"
+
+  has_many :event_notifications, foreign_key: :parent_id, dependent: :destroy
+
+
   before_save { email.downcase! }
 
-  enum :role, [ :admin, :professor, :student ]
+  enum :role, [ :admin, :professor, :student, :parent ]
 
   attr_accessor :current_password
 
