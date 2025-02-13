@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       resources :task_submissions, only: [ :index ]
     end
 
-    resources :events, only: [ :create, :index, :show ]
+    resources :events
   end
 
   namespace :usersbackoffice do
