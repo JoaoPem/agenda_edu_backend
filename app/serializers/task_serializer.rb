@@ -1,14 +1,33 @@
 class TaskSerializer < ActiveModel::Serializer
-  attributes :id, :professor_id, :title, :description, :deadline, :class_room_id, :subject_id, :topic_id, :file_url
+  attributes :id, :professor, :title, :description, :deadline, :class_room, :subject, :topic, :file_url
 
   # É chamado no controller do usuário;
   attribute :status, if: :user_status?
   has_many :feedbacks, if: :include_feedbacks?, serializer: FeedbackSerializer
   has_many :task_submissions, if: :include_submissions?
 
+  def professor
+    {
+      name: object.professor.name
+    }
+  end
 
-  def subject_id
-    object.topic.subject_id
+  def class_room
+    {
+      name: object.class_room.name
+    }
+  end
+
+  def subject
+    {
+      name: object.topic.subject.name
+    }
+  end
+
+  def topic
+    {
+      name: object.topic.name
+    }
   end
 
   def file_url
