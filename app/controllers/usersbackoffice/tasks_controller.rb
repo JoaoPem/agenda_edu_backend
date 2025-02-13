@@ -1,14 +1,9 @@
 class Usersbackoffice::TasksController < ApplicationController
+  before_action :authorize_access
   before_action :set_task, only: [ :show ]
-  before_action :authorize_task_access, only: [ :show ]
 
   def index
-    @tasks = if current_user.student?
-               Task.where(class_room: current_user.class_room)
-                   .includes(:class_room, :topic, :professor)
-    else
-               Task.includes(:class_room, :subject, :topic, :professor).all
-    end
+    @tasks = Task.where(class_room: current_user.class_room).includes(:class_room, :topic, :professor)
 
     render json: @tasks, each_serializer: TaskSerializer, user_status: true
   end
@@ -24,9 +19,11 @@ class Usersbackoffice::TasksController < ApplicationController
     render json: { error: "Tarefa não encontrada" }, status: :not_found unless @task
   end
 
-  def authorize_task_access
-    return if current_user.professor? || @task.class_room == current_user.class_room
+  def authorize_access
+    return render json: { error: "Acesso negado. Apenas estudantes podem acessar esta funcionalidade." }, status: :forbidden unless current_user.student?
 
-    render json: { error: "Você não tem permissão para visualizar esta tarefa." }, status: :forbidden
+    if params[:id].present? && @task && @task.class_room != current_user.class_room
+      render json: { error: "Você não tem permissão para visualizar esta tarefa." }, status: :forbidden
+    end
   end
 end
