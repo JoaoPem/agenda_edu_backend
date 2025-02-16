@@ -11,9 +11,9 @@ class Usersbackoffice::TasksController < ApplicationController
   end
 
   def show
-    if stale?(etag: @task, last_modified: @task.updated_at)
+      # if stale?(etag: @task, last_modified: @task.updated_at)
       render json: @task, each_serializer: TaskSerializer, include_feedbacks: true, user_status: true
-    end
+    # end
   end
 
   private

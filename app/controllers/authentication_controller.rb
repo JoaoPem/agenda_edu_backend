@@ -5,7 +5,7 @@ class AuthenticationController < ApplicationController
     if user&.authenticate(params[:user][:password])
       token = JsonWebToken.encode(user_id: user.id)
       expires_at = JsonWebToken.decode(token)[:exp]
-      render json: { token:, expires_at: }, status: :ok
+      render json: { token:, expires_at:, name: user.name }, status: :ok
     else
       render json: { error: "Invalid email or password" }, status: :unauthorized
     end
