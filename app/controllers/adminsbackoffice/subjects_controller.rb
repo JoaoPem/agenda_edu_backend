@@ -10,7 +10,7 @@ class Adminsbackoffice::SubjectsController < ApplicationController
     else
       @subjects = Subject.includes(:professors).all
     end
-    if stale?(etag: @subjects, last_modified: @subjects.maximum(:updated_at))
+    if stale?(etag: @subjects)
       render json: @subjects
     end
   end
@@ -25,7 +25,7 @@ class Adminsbackoffice::SubjectsController < ApplicationController
   end
 
   def show
-    if stale?(etag: @subject, last_modified: @subject.updated_at)
+    if stale?(etag: @subject)
       render json: @subject, serializer: SubjectSerializer, include_professors: true, include_topics: true
     end
   end

@@ -15,13 +15,13 @@ class Adminsbackoffice::EventsController < ApplicationController
 
   def index
     @events = Event.includes(:class_room).order(created_at: :desc)
-    if stale?(etag: @events, last_modified: @events.maximum(:updated_at))
+    if stale?(etag: @events)
       render json: @events, each_serializer: EventSerializer
     end
   end
 
   def show
-    if stale?(etag: @event, last_modified: @event.updated_at)
+    if stale?(etag: @event)
       render json: @event, serializer: EventSerializer, include_notifications: true, include_parent: true
     end
   end

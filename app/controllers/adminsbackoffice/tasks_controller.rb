@@ -10,7 +10,7 @@ class Adminsbackoffice::TasksController < ApplicationController
     else
       @tasks = Task.includes(:class_room, :topic, :professor).all
     end
-    if stale?(etag: @tasks, last_modified: @tasks.maximum(:updated_at))
+    if stale?(etag: @tasks)
       render json: @tasks
     end
   end
@@ -58,7 +58,7 @@ class Adminsbackoffice::TasksController < ApplicationController
   end
 
   def show
-    if stale?(etag: @task, last_modified: @task.updated_at)
+    if stale?(etag: @task)
       render json: @task, each_serializer: TaskSerializer, include_feedbacks: true
     end
   end

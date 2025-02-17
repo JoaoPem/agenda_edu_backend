@@ -9,7 +9,7 @@ class Usersbackoffice::TaskSubmissionsController < ApplicationController
   def index
     @submissions = TaskSubmission.where(student: current_user).includes(:task)
 
-    if stale?(etag: @submissions, last_modified: @submissions.maximum(:updated_at))
+    if stale?(etag: @submissions)
       render json: @submissions
     end
   end
@@ -52,7 +52,7 @@ class Usersbackoffice::TaskSubmissionsController < ApplicationController
   end
 
   def show
-    if stale?(etag: @submission, last_modified: @submission.updated_at)
+    if stale?(etag: @submission)
       render json: @submission
     end
   end

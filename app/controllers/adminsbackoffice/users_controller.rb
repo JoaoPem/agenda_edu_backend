@@ -14,13 +14,13 @@ class Adminsbackoffice::UsersController < ApplicationController
 
   def index
     @users = User.all
-    if stale?(etag: @users, last_modified: @users.maximum(:updated_at))
+    if stale?(etag: @users)
       render json: @users
     end
   end
 
   def show
-    if stale?(etag: @topic, last_modified: @topic.updated_at)
+    if stale?(etag: @topic)
       render json: @user
     end
   end

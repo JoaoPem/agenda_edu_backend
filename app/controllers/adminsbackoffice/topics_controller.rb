@@ -11,7 +11,7 @@ class Adminsbackoffice::TopicsController < ApplicationController
     else
       @topics = Topic.includes(:subject).all
     end
-    if stale?(etag: @topics, last_modified: @topics.maximum(:updated_at))
+    if stale?(etag: @topics)
       render json: @topics
     end
   end
@@ -39,7 +39,7 @@ class Adminsbackoffice::TopicsController < ApplicationController
   end
 
   def show
-    if stale?(etag: @topic, last_modified: @topic.updated_at)
+    if stale?(etag: @topic)
       render json: @topic
     end
   end
