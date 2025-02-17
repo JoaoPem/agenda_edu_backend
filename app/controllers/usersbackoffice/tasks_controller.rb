@@ -5,15 +5,11 @@ class Usersbackoffice::TasksController < ApplicationController
   def index
     @tasks = Task.where(class_room: current_user.class_room).includes(:class_room, :topic, :professor)
 
-    if stale?(etag: @tasks, last_modified: @tasks.maximum(:updated_at))
-      render json: @tasks, each_serializer: TaskSerializer, user_status: true
-    end
+    render json: @tasks, each_serializer: TaskSerializer, user_status: true
   end
 
   def show
-      # if stale?(etag: @task, last_modified: @task.updated_at)
       render json: @task, each_serializer: TaskSerializer, include_feedbacks: true, user_status: true
-    # end
   end
 
   private
